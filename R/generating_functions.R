@@ -224,7 +224,6 @@ LO <- function(){
 
   out
 }
-<<<<<<< HEAD
 
 ### Canonical slash ------------------------------------------------------------
 CSL <- function(){
@@ -244,7 +243,7 @@ CSL <- function(){
   ## Cumulative distribution function
   out$p <- function(q, nu = NULL){
     p0 <- rep(0.5, length(q[q == 0]) )
-    p <- pnorm(q[q != 0]) - (dnorm(0) - dnorm(q[q != 0])) / q[q != 0]
+    p <- stats::pnorm(q[q != 0]) - (stats::dnorm(0) - stats::dnorm(q[q != 0])) / q[q != 0]
 
     cdf <- c(p0, p)
     index <- c(which(q == 0), which(q != 0))
@@ -260,15 +259,15 @@ CSL <- function(){
     qtf <- function(p){
       if (length(p) >= 1){
         obj <- function(q){
-          pnorm(q) - (dnorm(0) - dnorm(q)) /
+          stats::pnorm(q) - (stats::dnorm(0) - stats::dnorm(q)) /
             q - p
         }
 
         #jac <- function(q){
-        #  dnorm(0)/(q^2) - dnorm(q)
+        #  stats::dnorm(0)/(q^2) - stats::dnorm(q)
         #}
 
-        nleqslv::nleqslv(2 * qnorm(p), obj)$x
+        nleqslv::nleqslv(2 * stats::qnorm(p), obj)$x
       }else{
         numeric(0)
       }
@@ -299,7 +298,7 @@ SL <- function(){
   out <- list()
 
   ## Incomplete gamma function
-  ig <- function(a, x) gamma(a) * pgamma(x, a)
+  ig <- function(a, x) gamma(a) * stats::pgamma(x, a)
 
   ## Generating function
   out$d <- function(u, nu){
@@ -336,10 +335,10 @@ SL <- function(){
       if (length(q) >= 1){
 
         integrand <- function(x){
-          nu * x^(nu-1) * pnorm(x * q)
+          nu * x^(nu-1) * stats::pnorm(x * q)
         }
 
-        integrate(integrand, 0, 1)$val
+        stats::integrate(integrand, 0, 1)$val
       }else{
         numeric(0)
       }
@@ -372,7 +371,7 @@ SL <- function(){
           out$p(q, nu) - p
         }
 
-        nleqslv::nleqslv(qnorm(p) / (0.5^(1/nu)), obj)$x
+        nleqslv::nleqslv(stats::qnorm(p) / (0.5^(1/nu)), obj)$x
       }else{
         numeric(0)
       }
@@ -397,6 +396,3 @@ SL <- function(){
 
   out
 }
-
-=======
->>>>>>> f8c3b4a3a17689e40846ed79e7e91c09d4531b69
