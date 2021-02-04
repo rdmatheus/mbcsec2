@@ -36,6 +36,7 @@
 #'    \item{extraP:}{ Logical; it receives \code{TRUE} if the generating
 #'      distribution has an extra parameter.}
 #'    \item{weigh:}{ Weighting function \code{function(z, nu)}.}
+#'    \item{name:}{ Name of the distribution.}
 #'  }
 #'
 #'  The arguments of the returned functions are:
@@ -103,6 +104,9 @@ NO <- function(){
   ## Wheighting function
   out$weigh <- function(z, nu = NULL) 1
 
+  ## Name
+  out$name <- "Normal"
+
   out
 }
 
@@ -130,6 +134,9 @@ ST <- function(){
 
   ## Wheighting function
   out$weigh <- function(z, nu) (nu + 1)/(nu + z^2)
+
+  ## Name
+  out$name <- "Student-t"
 
   out
 }
@@ -202,6 +209,9 @@ PE <- function(){
     (nu * (z^2)^(nu/2 - 1)) / (2 * c^nu)
   }
 
+  ## Name
+  out$name <- "Power exponential"
+
   out
 }
 
@@ -229,6 +239,9 @@ CA <- function(){
 
   ## Wheighting function
   out$weigh <- function(z, nu = NULL) 2 / (1 + z^2)
+
+  ## Name
+  out$name <- "Cauchy"
 
   out
 }
@@ -269,6 +282,9 @@ DE <- function(){
   ## Wheighting function
   out$weigh <- function(z, nu = NULL) sqrt(2) / abs(z)
 
+  ## Name
+  out$name <- "Double exponential"
+
   out
 }
 
@@ -301,6 +317,9 @@ LO <- function(){
   out$weigh <- function(z, nu = NULL){
     (exp(-abs(z)) - 1) / (abs(z) * (exp(-abs(z)) + 1))
   }
+
+  ## Name
+  out$name <- "Logistic"
 
   out
 }
@@ -369,6 +388,9 @@ CSL <- function(){
   out$weigh <- function(z, nu = NULL){
     2/(z^2) - exp(-z^2 / 2) / (1 - exp(- z^2 / 2))
   }
+
+  ## Abbreviation
+  out$name <- "Canonical slash"
 
   out
 }
@@ -473,6 +495,9 @@ SL <- function(){
   out$weigh <- function(z, nu){
     2 * ig( (nu + 3)/2, z^2 / 2 ) / ( z^2 * ig( (nu + 1)/2, z^2 / 2 ))
   }
+
+  ## Name
+  out$name <- "Slash"
 
   out
 }

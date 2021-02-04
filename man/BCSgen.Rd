@@ -22,6 +22,7 @@ The above family of distribution returns a list whose components are
    \item{extraP:}{ Logical; it receives \code{TRUE} if the generating
      distribution has an extra parameter.}
    \item{weigh:}{ Weighting function \code{function(z, nu)}.}
+   \item{name:}{ Name of the distribution.}
  }
 
  The arguments of the returned functions are:
