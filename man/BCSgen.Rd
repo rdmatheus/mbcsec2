@@ -2,19 +2,26 @@
 % Please edit documentation in R/generating_functions.R
 \name{BCSgen}
 \alias{BCSgen}
+\alias{print.BCSgen}
 \title{Box-Cox Symmetric Distribution Class Generators}
 \usage{
 BCSgen(dist)
+
+\method{print}{BCSgen}(x, ...)
 }
 \arguments{
 \item{dist}{Character specification of the generating distribution, see
 details.}
+
+\item{x}{A \code{"BCSgen"} object.}
+
+\item{...}{Further arguments for other specific methods.}
 }
 \value{
-The above family of distribution returns a list whose components are
-    set of functions referring to the generating function of the Box-Cox
-    symmetric class of distributions. The output components of each function
-    are:
+The function \code{BCSgen()} returns a list whose components are set
+    of functions referring to the generating function of the Box-Cox
+    symmetric class of distributions. More specifically, returns an
+    \code{"BCSgen"} object with the following elements:
  \itemize{
    \item{d:}{ Density generating function \code{function(u, nu)}.}
    \item{p:}{ Cumulative distribution function \code{function(q, nu)}.}
@@ -45,7 +52,7 @@ There are some distributions available for the density generating
     to be passed to \code{BCSgen()}.
 
   \tabular{lll}{
- \bold{Distribution}  \tab \bold{Abbreviation} \tab \bold{It has an extra parameter?}\cr
+ \bold{Distribution}  \tab \bold{Abbreviation} \tab \bold{Does it have an extra parameter?}\cr
  Cauchy  \tab \code{"CA"}      \tab  no  \cr
  Canonical slash  \tab \code{"CSL"}      \tab  no  \cr
  Double exponential (Laplace)  \tab \code{"DE"}      \tab  no  \cr
@@ -58,6 +65,8 @@ There are some distributions available for the density generating
 }
 \examples{
 \dontrun{
+BCSgen("NO")
+
 curve(BCSgen("NO")$d(x^2), xlim = c(-5, 5),
       ylim = c(0, 0.7), ylab = "Density")
 curve(BCSgen("CA")$d(x^2), add = TRUE, col = 2)

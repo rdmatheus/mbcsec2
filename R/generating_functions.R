@@ -7,13 +7,15 @@
 #'
 #' @param dist Character specification of the generating distribution, see
 #'     details.
+#' @param x A \code{"BCSgen"} object.
+#' @param ... Further arguments for other specific methods.
 #'
 #' @details There are some distributions available for the density generating
 #'     function. The following table display their names and their abbreviations
 #'     to be passed to \code{BCSgen()}.
 #'
 #'   \tabular{lll}{
-#'  \bold{Distribution}  \tab \bold{Abbreviation} \tab \bold{It has an extra parameter?}\cr
+#'  \bold{Distribution}  \tab \bold{Abbreviation} \tab \bold{Does it have an extra parameter?}\cr
 #'  Cauchy  \tab \code{"CA"}      \tab  no  \cr
 #'  Canonical slash  \tab \code{"CSL"}      \tab  no  \cr
 #'  Double exponential (Laplace)  \tab \code{"DE"}      \tab  no  \cr
@@ -25,10 +27,10 @@
 #'  }
 #'
 #'
-#' @return The above family of distribution returns a list whose components are
-#'     set of functions referring to the generating function of the Box-Cox
-#'     symmetric class of distributions. The output components of each function
-#'     are:
+#' @return The function \code{BCSgen()} returns a list whose components are set
+#'     of functions referring to the generating function of the Box-Cox
+#'     symmetric class of distributions. More specifically, returns an
+#'     \code{"BCSgen"} object with the following elements:
 #'  \itemize{
 #'    \item{d:}{ Density generating function \code{function(u, nu)}.}
 #'    \item{p:}{ Cumulative distribution function \code{function(q, nu)}.}
@@ -57,6 +59,8 @@
 #'
 #' @examples
 #' \dontrun{
+#' BCSgen("NO")
+#'
 #' curve(BCSgen("NO")$d(x^2), xlim = c(-5, 5),
 #'       ylim = c(0, 0.7), ylab = "Density")
 #' curve(BCSgen("CA")$d(x^2), add = TRUE, col = 2)
@@ -73,8 +77,28 @@
 BCSgen <- function(dist){
   dist <- match.fun(dist)
   dist <- eval(dist())
+  class(dist) <- "BCSgen"
   dist
 }
+
+#' @rdname BCSgen
+#' @export
+print.BCSgen <- function(x, ...){
+
+  gens <- c("CA", "CSL", "DE", "LO", "NO", "PE", "SL", "ST")
+  GENs <- c("Cauchy", "Canonial slash", "Double exponential", "Logistic",
+            "Normal", "Power exponential", "Slash", "Student-t")
+
+
+  cat("----------------------------------------",
+      "\nBox-Cox Symmetrical Generating Function",
+      "\n----------------------------------------",
+      "\nGenerating distribution:", x$name,
+      "\nAbreviation:", gens[GENs == x$name],
+      "\nExtra parameter:", ifelse(x$extraP, "yes", "no"),
+      "\n---")
+}
+
 ################################################################################
 # Distributions:                                                               #
 ###############################################################################
