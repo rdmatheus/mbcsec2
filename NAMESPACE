@@ -2,3 +2,7 @@
 
 S3method(print,BCSgen)
 export(BCSgen)
+export(dBCS)
+export(pBCS)
+export(qBCS)
+export(rBCS)
