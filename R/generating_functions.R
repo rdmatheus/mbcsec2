@@ -397,7 +397,11 @@ CSL <- function(){
     }
 
     q0 <- rep(0, length(p[p == 0.5]) )
-    q <- as.numeric(apply(matrix(p[p != 0.5], ncol = 1), 1, qtf))
+    if (length(p[p != 0.5]) < 1){
+      q <- numeric(0)
+    } else{
+      q <- as.numeric(apply(matrix(p[p != 0.5], ncol = 1), 1, qtf))
+    }
 
     qtf <- c(q0, q)
     index <- c(which(p == 0.5), which(p != 0.5))
@@ -504,7 +508,12 @@ SL <- function(){
     }
 
     q0 <- rep(0, length(p[p == 0.5]) )
-    q <- as.numeric(apply(matrix(c(p[p != 0.5], nu[p != 0.5]), ncol = 2), 1, qtf))
+    if (length(p[p != 0.5]) < 1){
+      q <- numeric(0)
+    } else{
+      q <- as.numeric(apply(matrix(c(p[p != 0.5], nu[p != 0.5]), ncol = 2),
+                            1, qtf))
+    }
 
     qtf <- c(q0, q)
     index <- c(which(p == 0.5), which(p != 0.5))
