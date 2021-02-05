@@ -55,8 +55,8 @@ This set of functions represents the probability function, the
     cumulative distribution function, quantile function, and a random number
     generator for the Box-Cox symmetric class of distributions proposed by
     Ferrari and Fumes (2017). This class of distributions includes the
-    Box–Cox t (Rigby and Stasinopoulos, 2006), Box–Cox Cole-Green
-    (or Box–Cox normal; Cole and Green, 1992), Box–Cox power exponential
+    Box-Cox t (Rigby and Stasinopoulos, 2006), Box-Cox Cole-Green
+    (or Box-Cox normal; Cole and Green, 1992), Box-Cox power exponential
     (Rigby and Stasinopoulos, 2004) distributions, and the class of the
     log-symmetric distributions (Vanegas and Paula, 2016) as special cases.
     The current available generating distributions can be seen below.
@@ -110,14 +110,14 @@ curve(pBCS(x, 8, 0.15, 1, 10, gen = "PE"), add = TRUE, col = 2, lwd = 2)
 }
 \references{
 Cole, T., & Green, P.J. (1992). Smoothing reference centile curves: the LMS
-     method and penalized likelihood. Stat. Med, 11, 1305-–1319.
+     method and penalized likelihood. Stat. Med, 11, 1305--1319.
 
- Ferrari, S. L., & Fumes, G. (2017). Box–Cox symmetric distributions and
+ Ferrari, S. L., & Fumes, G. (2017). Box-Cox symmetric distributions and
      applications to nutritional data. AStA Advances in Statistical Analysis,
      101, 321--344.
 
  Rigby, R. A., & Stasinopoulos, D. M. (2004). Smooth centile curves for skew
-     and kurtotic data modelled using the Box–Cox power exponential
+     and kurtotic data modelled using the Box-Cox power exponential
      distribution. Statistics in medicine, 23, 3053--3076.
 
  Rigby, R. A., & Stasinopoulos, D. M. (2006). Using the Box-Cox t
