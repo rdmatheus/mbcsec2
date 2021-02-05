@@ -124,8 +124,8 @@ h <- function(y, mu, sigma, lambda){
   sigma <- do.call(rbind, replicate(n/dim(sigma)[1], sigma, simplify = FALSE))
   lambda <- do.call(rbind, replicate(n/dim(lambda)[1], lambda, simplify = FALSE))
 
-  id1 <- which(mu > 0 & sigma > 0 & lambda != 0, arr.ind = TRUE)
-  id2 <- which(mu > 0 & sigma > 0 & lambda == 0, arr.ind = TRUE)
+  id1 <- which(y > 0 & mu > 0 & sigma > 0 & lambda != 0, arr.ind = TRUE)
+  id2 <- which(y > 0 & mu > 0 & sigma > 0 & lambda == 0, arr.ind = TRUE)
 
   z[id1] <- ((y[id1]/mu[id1])^lambda[id1] - 1) /
     (sigma[id1] * lambda[id1])
@@ -155,8 +155,6 @@ dBCS <- function(x, mu, sigma, lambda, nu = NULL, gen = "NO"){
   sigma <- matrix(sigma, ncol = d)
   lambda <- matrix(lambda, ncol = d)
 
-  pmf <- matrix(NaN, n, d)
-
   mu <- do.call(rbind, replicate(n/dim(mu)[1], mu, simplify = FALSE))
   sigma <- do.call(rbind, replicate(n/dim(sigma)[1], sigma, simplify = FALSE))
   lambda <- do.call(rbind, replicate(n/dim(lambda)[1], lambda, simplify = FALSE))
@@ -170,15 +168,25 @@ dBCS <- function(x, mu, sigma, lambda, nu = NULL, gen = "NO"){
   r <- BCSgen(gen)$d
   R <- BCSgen(gen)$p
 
-  id1 <- which(mu > 0 & sigma > 0 & lambda != 0, arr.ind = TRUE)
-  id2 <- which(mu > 0 & sigma > 0 & lambda == 0, arr.ind = TRUE)
+  pmf <- matrix(0, n, d)
 
-  pmf <- matrix(NaN, n, d)
+  # NaN index
+  NaNid <- which(mu <= 0 | sigma <= 0, arr.ind = TRUE)
+
+  pmf[NaNid] <- NaN
+
+  # Positive density index
+  id1 <- which(x > 0 & mu > 0 & sigma > 0 & lambda != 0 & !is.nan(pmf),
+               arr.ind = TRUE)
+  id2 <- which(x > 0 & mu > 0 & sigma > 0 & lambda == 0 & !is.nan(pmf),
+               arr.ind = TRUE)
+
 
   pmf[id1] <- (x[id1]^(lambda[id1] - 1) * r(z[id1]^2, nu[id1])) /
     (R(1/(sigma[id1] * abs(lambda[id1])), nu[id1]) * sigma[id1] * mu[id1]^lambda[id1])
 
   pmf[id2] <- r(z[id2]^2, nu[id2]) / (sigma[id2] * x[id2])
+
 
   if(d == 1L) as.vector(pmf) else pmf
 
@@ -261,9 +269,6 @@ qBCS <- function(p, mu, sigma, lambda, nu = NULL, gen = "NO"){
   # Generating distribution
   qr <- BCSgen(gen)$q
   R <- BCSgen(gen)$p
-
-  id1 <- which(lambda <= 0, arr.ind = TRUE)
-  id2 <- which(lambda > 0, arr.ind = TRUE)
 
   q <- zp <- matrix(NaN, n, d)
 
