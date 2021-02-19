@@ -12,7 +12,7 @@ dmbcsec(
   param,
   P = NULL,
   df = 4,
-  copula = c("gaussian", "st", "cauchy", "dexponential"),
+  copula = c("gaussian", "t", "cauchy", "dexponential"),
   gen = "NO"
 )
 
@@ -22,7 +22,7 @@ rmbcsec(
   P = NULL,
   d = 2L,
   df = 4,
-  copula = c("gaussian", "st", "cauchy", "dexponential"),
+  copula = c("gaussian", "t", "cauchy", "dexponential"),
   gen = "NO"
 )
 }
@@ -43,7 +43,7 @@ then the identity matrix is used.}
 \item{copula}{character; informs which distribution in the class of
 elliptical distributions should be used to generate the elliptical
 copula. Currently, the copulas available are:
-Gaussian (\code{"gaussian"}), Student's t (\code{"st"}), Cauchy
+Gaussian (\code{"gaussian"}), Student's t (\code{"t"}), Cauchy
 (\code{"cauchy"}), and double exponential (\code{"dexponential"}).}
 
 \item{gen}{a character or a vector character; specifies the distributions
