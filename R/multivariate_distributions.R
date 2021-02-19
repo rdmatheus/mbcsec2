@@ -1,3 +1,10 @@
+ell <- function(dist){
+  dist <- match.fun(dist)
+  dist <- eval(dist())
+  dist
+}
+
+
 ### Multivariate normal --------------------------------------------------------
 # From 'mvtnorm' package
 gaussian <- function(){
