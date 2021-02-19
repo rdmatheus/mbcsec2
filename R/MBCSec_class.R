@@ -22,7 +22,7 @@
 #' @param copula character; informs which distribution in the class of
 #'     elliptical distributions should be used to generate the elliptical
 #'     copula. Currently, the copulas available are:
-#'     Gaussian (\code{"gaussian"}), Student's t (\code{"st"}), Cauchy
+#'     Gaussian (\code{"gaussian"}), Student's t (\code{"t"}), Cauchy
 #'     (\code{"cauchy"}), and double exponential (\code{"dexponential"}).
 #' @param gen a character or a vector character; specifies the distributions
 #'     generating the marginal BCS distributions. If all BCS margins are
@@ -60,11 +60,11 @@
 #' @rdname MBCSec
 #' @export
 dmbcsec <- function(x, param, P = NULL, df = 4,
-                    copula = c("gaussian", "st", "cauchy", "dexponential"),
+                    copula = c("gaussian", "t", "cauchy", "dexponential"),
                     gen = "NO"){
 
   ### Reading the copula generating density
-  copula <- match.arg(copula, c("gaussian", "st", "cauchy", "dexponential"))
+  copula <- match.arg(copula, c("gaussian", "t", "cauchy", "dexponential"))
 
   ### Setting dimensions
   if (is.vector(x))
@@ -90,7 +90,7 @@ dmbcsec <- function(x, param, P = NULL, df = 4,
            function(gen) pBCS(x, mu, sigma, lambda, nu, gen))[, 1], ncol = 2)
   }
 
-  if (copula != "st"){
+  if (copula != "t"){
     q <- BCSgen(ell(copula)$gen)$q(w)
     den <- log(ell(copula)$Md(q, P)) +
       apply(matrix(
@@ -127,11 +127,11 @@ dmbcsec <- function(x, param, P = NULL, df = 4,
 #' @rdname MBCSec
 #' @export
 rmbcsec <- function(n, param, P = NULL, d = 2L, df = 4,
-                    copula = c("gaussian", "st", "cauchy", "dexponential"),
+                    copula = c("gaussian", "t", "cauchy", "dexponential"),
                     gen = "NO"){
 
   ### Reading the copula generating density
-  copula <- match.arg(copula, c("gaussian", "st", "cauchy", "dexponential"))
+  copula <- match.arg(copula, c("gaussian", "t", "cauchy", "dexponential"))
 
   ### Default association matrix
   if (is.null(P)) P <- diag(d)
@@ -143,7 +143,7 @@ rmbcsec <- function(n, param, P = NULL, d = 2L, df = 4,
   nu <- param$nu
 
 
-  if (copula != "st"){
+  if (copula != "t"){
     x <- BCSgen(ell(copula)$gen)$p(ell(copula)$Mr(n, P))
     y <- matrix(apply(matrix(gen, ncol = 1), 1,
                       function(gen) qBCS(x, mu, sigma, lambda, nu, gen))[, 1], ncol = d)

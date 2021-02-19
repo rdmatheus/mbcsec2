@@ -1,4 +1,5 @@
 ell <- function(dist){
+  if (dist == "t") dist <- "st"
   dist <- match.fun(dist)
   dist <- eval(dist())
   dist
