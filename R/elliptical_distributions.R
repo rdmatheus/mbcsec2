@@ -65,8 +65,11 @@ gaussian <- function(){
     retval
   }
 
-  ## Name
+  ### Copula name
   out$name <- "Gaussian"
+
+  ### Gen
+  out$gen <- "NO"
 
   out
 
@@ -130,8 +133,11 @@ st <- function(){
     sweep(sims, 2, rep(0, d), "+")
   }
 
-  ## Name
+  ### Copula name
   out$name <- "Student's t"
+
+  ### Gen
+  out$gen <- "ST"
 
   out
 
@@ -198,8 +204,11 @@ cauchy <- function(){
     retval <- retval/sqrt(z)
   }
 
-  ## Name
+  ### Copula name
   out$name <- "Cauchy"
+
+  ### Gen
+  out$gen <- "CA"
 
   out
 
@@ -265,8 +274,11 @@ dexponential <- function(){
     retval <- sqrt(e) * z
   }
 
-  ## Name
+  ### Copula name
   out$name <- "Double explonential"
+
+  ### Gen
+  out$gen <- "DE"
 
   out
 
