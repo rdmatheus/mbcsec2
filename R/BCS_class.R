@@ -273,6 +273,9 @@ qBCS <- function(p, mu, sigma, lambda, nu = NULL, gen = "NO"){
   q <- zp <- matrix(NaN, n, d)
 
   # Z_alpha
+  id1 <- which(mu > 0 & sigma > 0 & lambda <= 0, arr.ind = TRUE)
+  id2 <- which(mu > 0 & sigma > 0 & lambda > 0, arr.ind = TRUE)
+
   zp[id1] <- qr(p[id1] * R(1 / (sigma[id1] * abs(lambda[id1])), nu[id1]), nu[id1])
   zp[id2] <- qr(1 - (1 - p[id2]) * R(1 / (sigma[id2] * abs(lambda[id2])), nu[id2]), nu[id2])
 
