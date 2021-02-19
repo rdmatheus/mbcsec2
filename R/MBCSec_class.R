@@ -82,21 +82,24 @@ dmbcsec <- function(x, param, P = NULL, df = 4,
   lambda <- param$lambda
   nu <- param$nu
 
+  if (is.null(nu)) nu <- rep(NA, d)
+
   ### Copula density argument
   if (length(gen) == 1){
-    w <- pBCS(x, mu, sigma, lambda, nu, gen[1])
+    gen <- rep(gen, d)
+    w <- pBCS(x, mu, sigma, lambda, nu, gen)
   }else{
-    w <- matrix(apply(matrix(gen, ncol = 1), 1,
-           function(gen) pBCS(x, mu, sigma, lambda, nu, gen))[, 1], ncol = 2)
+    w <- matrix(mapply(pBCS, t(x), mu, sigma, lambda, nu, gen),
+                byrow = TRUE, ncol = d)
+    #w <- matrix(apply(matrix(gen, ncol = 1), 1,
+    #       function(gen) pBCS(x, mu, sigma, lambda, nu, gen))[, 1], ncol = d)
   }
 
   if (copula != "t"){
     q <- BCSgen(ell(copula)$gen)$q(w)
     den <- log(ell(copula)$Md(q, P)) +
-      apply(matrix(
-        apply(matrix(gen, ncol = 1), 1,
-        function(gen) log(dBCS(x, mu, sigma, lambda, nu, gen)))[, 1], ncol = d
-        ), 1, sum) -
+      apply(log(matrix(mapply(dBCS, t(x), mu, sigma, lambda, nu, gen),
+            byrow = TRUE, ncol = d)), 1, sum) -
       apply(matrix(log(BCSgen(ell(copula)$gen)$d(q^2)), ncol = d), 1, sum)
 
       #mvtnorm::dmvnorm(q, sigma = P, log = TRUE) +
@@ -105,10 +108,8 @@ dmbcsec <- function(x, param, P = NULL, df = 4,
   } else {
     q <- BCSgen(ell(copula)$gen)$q(w, df)
     den <- log(ell(copula)$Md(q, P, df)) +
-      apply(matrix(
-        apply(matrix(gen, ncol = 1), 1,
-        function(gen) log(dBCS(x, mu, sigma, lambda, nu, gen)))[, 1], ncol = d
-        ), 1, sum) -
+      apply(log(matrix(mapply(dBCS, t(x), mu, sigma, lambda, nu, gen),
+            byrow = TRUE, ncol = d)), 1, sum) -
       apply(matrix(log(BCSgen(ell(copula)$gen)$d(q^2, df)), ncol = d), 1, sum)
 
     #q <- stats::qt(w, df = df)
