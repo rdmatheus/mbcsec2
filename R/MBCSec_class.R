@@ -229,7 +229,7 @@ print.mbcsec.data <- function(x, ...){
   print(x$spec$P)
   cat("\n\nFirst observations:\n")
 
-  print(head(x$data))
+  print(utils::head(x$data))
 
   cat("---")
 }
@@ -248,14 +248,14 @@ plot.mbcsec.data <- function(x, method = c("pearson", "kendall", "spearman"),
 
   if (length(gen) == 1) rep(gen, d)
 
-  op <- par(mfrow = c(d, d), mar = c(2, 2, 1, 1) + 0.1)
+  op <- graphics::par(mfrow = c(d, d), mar = c(2, 2, 1, 1) + 0.1)
   for(i in 1:d){
     for(j in 1:d){
 
       if (j <= i){
         if (i == j){
-          hist(y[, i], prob = TRUE, main = " ", xlab = quote(y[i]))
-          curve(dBCS(x, param$mu[i], param$sigma[i],
+          graphics::hist(y[, i], prob = TRUE, main = " ", xlab = quote(y[i]))
+          graphics::curve(dBCS(x, param$mu[i], param$sigma[i],
                      param$lambda[i], param$nu[i], gen = gen[i]),
                 add = TRUE, col = 2, lwd = 2)
         } else {
@@ -273,18 +273,21 @@ plot.mbcsec.data <- function(x, method = c("pearson", "kendall", "spearman"),
           z <- outer(seq(min(y[, j]), max(y[, j]), length.out = 30),
                      seq(min(y[, i]), max(y[, i]), length.out = 30),
                      faux)
-          smoothScatter(y[, c(j, i)], xlab = quote(y[j]), ylab = quote(y[i]))
-          contour(seq(min(y[, j]), max(y[, j]), length.out = 30),
+          graphics::smoothScatter(y[, c(j, i)],
+                                  xlab = quote(y[j]), ylab = quote(y[i]))
+          graphics::contour(seq(min(y[, j]), max(y[, j]), length.out = 30),
                   seq(min(y[, i]), max(y[, i]), length.out = 30),
                   z, add = TRUE)
         }
       } else {
         plot(1:10, 1:10, type = "n", axes = FALSE)
-        text(5, 5, paste("Corr:\n", round(cor(y[, j], y[, i]), 2)), cex = 1.2)
+        graphics::text(5, 5,
+                       paste("Corr:\n", round(stats::cor(y[, j], y[, i]), 2)), cex = 1.2)
       }
 
 
     }
   }
+  graphics::par(op)
 
 }
