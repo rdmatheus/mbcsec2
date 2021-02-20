@@ -180,8 +180,8 @@ rmbcsec <- function(n, param, P = NULL, d = 2L, df = NULL,
 
   if (copula != "t"){
     x <- BCSgen(ell(copula)$gen)$p(ell(copula)$Mr(n, P))
-    y <- matrix(apply(matrix(gen, ncol = 1), 1,
-                      function(gen) qBCS(x, mu, sigma, lambda, nu, gen))[, 1], ncol = d)
+    y <- matrix(mapply(qBCS, t(x), mu, sigma, lambda, nu, gen),
+                byrow = TRUE, ncol = d)
 
     #x <- mvtnorm::rmvnorm(n, sigma = P)
     #y <- qBCS(stats::pnorm(x), mu, sigma, lambda, nu, gen)
@@ -190,8 +190,8 @@ rmbcsec <- function(n, param, P = NULL, d = 2L, df = NULL,
     if (is.null(df)) df <- 4
 
     x <- BCSgen(ell(copula)$gen)$p(ell(copula)$Mr(n, P, df), df)
-    y <- matrix(apply(matrix(gen, ncol = 1), 1,
-                      function(gen) qBCS(x, mu, sigma, lambda, nu, gen))[, 1], ncol = d)
+    y <- matrix(mapply(qBCS, t(x), mu, sigma, lambda, nu, gen),
+                byrow = TRUE, ncol = d)
 
     #x <- mvtnorm::rmvt(n, sigma = P, df = df)
     #y <- qBCS(stats::pt(x, df), mu, sigma, lambda, nu, gen)
@@ -246,7 +246,7 @@ plot.mbcsec.data <- function(x, method = c("pearson", "kendall", "spearman"),
   copula <- x$spec$copula
   gen <- x$spec$gen
 
-  if (length(gen) == 1) rep(gen, d)
+  if (length(gen) == 1) gen <- rep(gen, d)
 
   op <- graphics::par(mfrow = c(d, d), mar = c(2, 2, 1, 1) + 0.1)
   for(i in 1:d){
