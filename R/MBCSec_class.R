@@ -177,6 +177,9 @@ rmbcsec <- function(n, param, P = NULL, d = 2L, df = NULL,
   lambda <- param$lambda
   nu <- param$nu
 
+  if (length(gen) == 1) gen <- rep(gen, d)
+  if (is.null(nu)) nu <- rep(NA, d)
+
 
   if (copula != "t"){
     x <- BCSgen(ell(copula)$gen)$p(ell(copula)$Mr(n, P))
